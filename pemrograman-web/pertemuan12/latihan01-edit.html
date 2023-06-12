@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Json Edit Data</title>
+</head>
+<body>
+    <div>
+        Nama 
+        <input type="text" name="" id="txNAMA">
+    </div>
+   
+    <div>
+        Email
+        <input type="text" name="" id="txEMAIL">
+    </div>
+
+    <div>
+        User name
+        <input type="text" name="" id="txUSERNAME">
+    </div>
+
+    <div>
+        Password
+        <input type="Password" name="" id="pass1">
+    </div>
+    
+    <div>
+        verifikasi password
+        <input type="Password" name="" id="pass2"><br>
+    </div>
+    <button type="button" id ="cmdupdate" onclick="UpdateData()">update</button>
+
+
+
+    <script>
+        const qstring = window.location.search;
+
+        const pr = new URLSearchParams(qstring);
+        let prid = pr.get('id');
+
+        const jsHTTP = new XMLHttpRequest();
+        let cx = "https://webpro.ptov.my.id/api/curduser.php?aksi=get&q="+prid;
+        
+        jsHTTP.open("GET",cx);
+        jsHTTP.send();
+        jsHTTP.onload = function(){
+            const dta = JSON.parse(this.responseText);
+            document.getElementById("txNAMA").value = dta.isi[0][0];
+            document.getElementById("txEMAIL").value = dta.isi[0][1];
+            document.getElementById("txUSERNAME").value = dta.isi[0][2];
+            console.log(dta);
+        }
+
+        function UpdateData(){
+            //alert("Tombol Update Data di Klik");//
+            let nm = document.getElementById("txNAMA").value;
+            let ema = document.getElementById("txEMAIL").value;
+            let usr = document.getElementById("txUSERNAME").value;
+            let p1 = document.getElementById("txpass1").value;
+            let p2 = document.getElementById("txpass2").value;
+            let params = "nama="+nm+"&email="+ema+"&username="+usr+"&pass1"+p1+"&pass2"+p2
+            console.log("Parameter: "+params);     
+        }
+
+    </script>
+</body>
+</html>
